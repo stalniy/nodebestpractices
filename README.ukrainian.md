@@ -293,9 +293,9 @@ const count = 2 // інтерпретатор пробує виконати 2(),
 
 <br/><br/>
 
-## ![✔] 3.5 Називайте функції
+## ![✔] 3.5 Давайте функціям імена
 
-**TL;DR:** Називайте всі функції, включаючи замикання і колбеки. Уникайте використання анонімних функцій. Це Вам дуже допоможе під час відладки Node.js додатку. Завдяки іменам, Ви легко зрозумієте, куди дивитесь під час аналізу знімка пам'яті (в оригіналі "memory snapshot")
+**TL;DR:** Давайте функціям всім функціям імена, включаючи замикання і колбеки. Уникайте використання анонімних функцій. Це Вам дуже допоможе під час відладки Node.js додатку. Завдяки іменам, Ви легко зрозумієте, куди дивитесь під час аналізу знімка пам'яті (в оригіналі "memory snapshot")
 
 **Інакше:** Відладка помилок, на системі якою користуються клієнти, за допомогою знімка пам'яті може стати справжнім викликом, якщо Ви помітите, що збільшення пам'яті відбувається в анонімній функції
 
@@ -325,31 +325,32 @@ function doSomething() {}
 
 <br/><br/>
 
-## ![✔] 3.7 Prefer const over let. Ditch the var
+## ![✔] 3.7 Надавайте перевагу const, а не let. Забудьте про var
 
-**TL;DR:** Using `const` means that once a variable is assigned, it cannot be reassigned. Preferring `const` will help you to not be tempted to use the same variable for different uses, and make your code clearer. If a variable needs to be reassigned, in a for loop, for example, use `let` to declare it. Another important aspect of `let` is that a variable declared using it is only available in the block scope in which it was defined. `var` is function scoped, not block scoped, and [shouldn't be used in ES6](https://hackernoon.com/why-you-shouldnt-use-var-anymore-f109a58b9b70) now that you have `const` and `let` at your disposal
+**TL;DR:** `const` дозволяє задати значення змінної лише при ініціалізації і їй не можна змінити значення. Надавши перевагу `const` Ви більше не зможете використовувати одну й ту саму змінну для різних сценаріїв і це зробить код зрозумілішим. Використовуйте `let`, якщо змінну треба перевизначити, наприклад у `for` циклі. Інший дуже важливий аспект при використанні `let` і `const` - це те, що вони визначають змінну лише у області видимості блока, в якому змінна була створена. Натомість `var` доступна у всьому скоупі функції, незалежно від того створена вона в блоці чи на початку функції, тому [`var` не повинен використовуватись в ES6](https://hackernoon.com/why-you-shouldnt-use-var-anymore-f109a58b9b70). Тепер ми маємо `const` і `let`
 
-**Otherwise:** Debugging becomes way more cumbersome when following a variable that frequently changes
+**Інакше:** Відладжувати код зі змінними, які постійно змінюються набагато тяжче
 
-🔗 [**Read more: JavaScript ES6+: var, let, or const?** ](https://medium.com/javascript-scene/javascript-es6-var-let-or-const-ba58b8dcde75)
-
-<br/><br/>
-
-## ![✔] 3.8 Require modules first, not inside functions
-
-**TL;DR:** Require modules at the beginning of each file, before and outside of any functions. This simple best practice will not only help you easily and quickly tell the dependencies of a file right at the top but also avoids a couple of potential problems
-
-**Otherwise:** Requires are run synchronously by Node.js. If they are called from within a function, it may block other requests from being handled at a more critical time. Also, if a required module or any of its own dependencies throw an error and crash the server, it is best to find out about it as soon as possible, which might not be the case if that module is required from within a function
+🔗 [**Читати детальніше: JavaScript ES6+: var, let чи const?** ](https://medium.com/javascript-scene/javascript-es6-var-let-or-const-ba58b8dcde75)
 
 <br/><br/>
 
-## ![✔] 3.9 Require modules by folders, opposed to the files directly
+## ![✔] 3.8 Підключайте модулі на початку, не у функціях
 
-**TL;DR:** When developing a module/library in a folder, place an index.js file that exposes the module's internals so every consumer will pass through it. This serves as an 'interface' to your module and eases future changes without breaking the contract
+**TL;DR:** Підключайте модулі на початку кожного файлу, перед і за межами будь-якої функції. Цей простий підхід не лише допоможе швидко і легко бачити всі залежності файлу, але й допоможе уникнути потенційних проблем
 
-**Otherwise:** Changing the internal structure of files or the signature may break the interface with clients
+**Інакше:** Підключення модулів відбувається синхронно самим Node.js. Якщо воно відбувається всередині функції, то може заблокувати більш критичні запити. Також, якщо підключаємий модуль (або одна із його залежностей) викине помилку і закрешить сервер, то дізнатись про це хотілося б якомога раніше. Цього точно дуже важко досягти, якщо підключати модуль всередині функції
 
-### Code example
+<br/><br/>
+
+## ![✔] 3.9 Підключайте модуль як папку, а не файл
+
+**TL;DR:** Коли розробляєш модуль або бібліотеку в папці, додай index.js файл, який виконуватиме функцію публічного інтерфейсу для Nodejs модуля.
+Це допоможе пізніше внести зміни, не порушуючи зворотню сумісність
+
+**Інакше:** Зміна внутрішньої структури папок або перейменування файлів може порушити зворотню сумісність з клієнтами
+
+### Приклад Коду
 
 ```javascript
 // Do
@@ -363,13 +364,13 @@ module.exports.SMSNumberResolver = require('./SMSNumberResolver/SMSNumberResolve
 
 <br/><br/>
 
-## ![✔] 3.10 Use the `===` operator
+## ![✔] 3.10 Використовуйте оператор `===`
 
-**TL;DR:** Prefer the strict equality operator `===` over the weaker abstract equality operator `==`. `==` will compare two variables after converting them to a common type. There is no type conversion in `===`, and both variables must be of the same type to be equal
+**TL;DR:** Надавайте перевагу строгому оператору рівності `===`, а не більш слабкому абстрактному оператору `==`. `==` порівнює 2 змінні після приведення їх до одного сумісного типу. Натомість оператор `===` не робить приведення типів, а натомість переконується, що змінні мають однаковий тип
 
-**Otherwise:** Unequal variables might return true when compared with the `==` operator
+**Інакше:** Порівняння нерівних змінних може повернути true, якщо використовувати `==`
 
-### Code example
+### Приклад Коду
 
 ```javascript
 '' == '0'           // false
@@ -386,31 +387,31 @@ null == undefined   // true
 ' \t\r\n ' == 0     // true
 ```
 
-All statements above will return false if used with `===`
+Всі вирази вище повернуть false, якщо використати `===`
 
 <br/><br/>
 
-## ![✔] 3.11 Use Async Await, avoid callbacks
+## ![✔] 3.11 Використовуйте Async Await, уникайте callback
 
-**TL;DR:** Node 8 LTS now has full support for Async-await. This is a new way of dealing with asynchronous code which supersedes callbacks and promises. Async-await is non-blocking, and it makes asynchronous code look synchronous. The best gift you can give to your code is using async-await which provides a much more compact and familiar code syntax like try-catch
+**TL;DR:** Node 8 LTS повністю підтримує Async-await. Це новий спосіб для роботи з асинхронним кодом, що витіснив Promise-и та callback-и. Async-await не є блокуючим, проте дозволяє писати асинхронний код так, щоб він виглядав як синхронний. Найкращий подарунок, який Ви можете зробити для свого коду - це використати async-await, що дозволяє писати код більш компактно і робить його більш зрозумілим, наприклад, try-catch
 
-**Otherwise:** Handling async errors in callback style is probably the fastest way to hell - this style forces to check errors all over, deal with awkward code nesting and makes it difficult to reason about the code flow
+**Інакше:** Обробка асинхронних помилок з використанням callback стилю ймовірно найкоротший шлях до безладу (в оригіналі hell) - цей стиль змушує перевіряти помилки скрізь по коду, мати справу з глибокою вкладеністю та ускладнює розуміння коду
 
-🔗[**Read more:** Guide to async await 1.0](https://github.com/yortus/asyncawait)
+🔗[**Читати детальніше:** async await 1.0](https://github.com/yortus/asyncawait)
 
 <br/><br/>
 
-## ![✔] 3.12 Use arrow function expressions (=>)
+## ![✔] 3.12 Використовуйте стрілочні функції (=>)
 
-**TL;DR:** Though it's recommended to use async-await and avoid function parameters when dealing with older APIs that accept promises or callbacks - arrow functions make the code structure more compact and keep the lexical context of the root function (i.e. `this`)
+**TL;DR:** Хоча і рекомендується використовувати async-await і уникати функцій-параметрів, іноді приходиться мати справу із старішими інтерфейсами, що працюють з Promise або callback-ами. В таких випадках - стрілочні функції роблять код компактнішим і зберігають лексичний контекст корневої функції (тобто `this`)
 
-**Otherwise:** Longer code (in ES5 functions) is more prone to bugs and cumbersome to read
+**Інакше:** Код написаний з ES5 функціями більш незграбний і схильний до помилок
 
-🔗 [**Read more: It’s Time to Embrace Arrow Functions**](https://medium.com/javascript-scene/familiarity-bias-is-holding-you-back-its-time-to-embrace-arrow-functions-3d37e1a9bb75)
+🔗 [**Читати детальніше: Настав час Стрілочних функцій**](https://medium.com/javascript-scene/familiarity-bias-is-holding-you-back-its-time-to-embrace-arrow-functions-3d37e1a9bb75)
 
 <br/><br/><br/>
 
-<p align="right"><a href="#table-of-contents">⬆ Return to top</a></p>
+<p align="right"><a href="#table-of-contents">⬆ Повернутись на початок</a></p>
 
 # `4. Testing And Overall Quality Practices`
 
