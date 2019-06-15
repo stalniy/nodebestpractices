@@ -202,11 +202,11 @@
 
 <br/><br/>
 
-## ![✔] 2.10 Ловіть необроблені відхилення (в оригіналі rejection) Promise-и
+## ![✔] 2.10 Ловіть необроблені відхилення (в оригіналі rejection) Promise
 
 **TL;DR:** Будь-яка помилка викинута всередині Promise ланцюжка буде тихо проковтнута та відхилена, якщо програміст не обробить її спеціально. Навіть якщо Ваш код підписаний на `process.uncaughtException` подію! Виправте це підписавшись на подію `process.unhandledRejection`
 
-**Інакше:** Ваші помилку будуть проковтнутими без будь-яких ознак існування.
+**Інакше:** Ви ніколи не будете знати, що у Вашій програмі є помилки.
 
 🔗 [**Читати детальніше: ловіть необроблені відхилення Promise**](/sections/errorhandling/catchunhandledpromiserejection.md)
 
@@ -222,103 +222,103 @@
 
 <br/><br/><br/>
 
-<p align="right"><a href="#table-of-contents">⬆ Return to top</a></p>
+<p align="right"><a href="#table-of-contents">⬆ Повернутись на початок</a></p>
 
-# `3. Code Style Practices`
+# `3. Стиль написання коду`
 
-## ![✔] 3.1 Use ESLint
+## ![✔] 3.1 Використовуйте ESLint
 
-**TL;DR:** [ESLint](https://eslint.org) is the de-facto standard for checking possible code errors and fixing code style, not only to identify nitty-gritty spacing issues but also to detect serious code anti-patterns like developers throwing errors without classification. Though ESLint can automatically fix code styles, other tools like [prettier](https://www.npmjs.com/package/prettier) and [beautify](https://www.npmjs.com/package/js-beautify) are more powerful in formatting the fix and work in conjunction with ESLint
+**TL;DR:** [ESLint](https://eslint.org) є де-факто статнадртом для перевірки помилок і виправлення форматування коду. Він не лише ідентифікує проблеми з відступами, а й також допомогає знайти серйозні анти-патерни в коді, як наприклад, викидування некласифікованих помилок. І хоча ESLint може автоматично виправити форматування, інші інструменти на зразок [prettier](https://www.npmjs.com/package/prettier) та [beautify](https://www.npmjs.com/package/js-beautify) справляються з проблемами форматування набагато краще (звісно ж їх можна використовувати у зв'язці з ESLint).
 
-**Otherwise:** Developers will focus on tedious spacing and line-width concerns and time might be wasted overthinking the project's code style
+**Інакше:** Програмісти будуть зайняті постійними суперечками про відступи і довжину строки, ще вони будуть витрачати час на створення власного код стилю.
 
-🔗 [**Read More: Using ESLint and Prettier**](/sections/codestylepractices/eslint_prettier.md)
-
-<br/><br/>
-
-## ![✔] 3.2 Node.js specific plugins
-
-**TL;DR:** On top of ESLint standard rules that cover vanilla JavaScript, add Node.js specific plugins like [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node), [eslint-plugin-mocha](https://www.npmjs.com/package/eslint-plugin-mocha) and [eslint-plugin-node-security](https://www.npmjs.com/package/eslint-plugin-security)
-
-**Otherwise:** Many faulty Node.js code patterns might escape under the radar. For example, developers might require(variableAsPath) files with a variable given as path which allows attackers to execute any JS script. Node.js linters can detect such patterns and complain early
+🔗 [**Читати детальніше: Використовуйте ESLint та Prettier**](/sections/codestylepractices/eslint_prettier.md)
 
 <br/><br/>
 
-## ![✔] 3.3 Start a Codeblock's Curly Braces on the Same Line
+## ![✔] 3.2 ESLint плагіни під Node.js
 
-**TL;DR:** The opening curly braces of a code block should be on the same line as the opening statement
+**TL;DR:** Поверх стандартних ESLint правил для JavaScript, також підключіть плагіни специфічні для Node.js, такі як [eslint-plugin-node](https://www.npmjs.com/package/eslint-plugin-node), [eslint-plugin-mocha](https://www.npmjs.com/package/eslint-plugin-mocha) і [eslint-plugin-node-security](https://www.npmjs.com/package/eslint-plugin-security)
 
-### Code Example
+**Інакше:** Багато Node.js анти-патернів можуть глибоко закріпитись у Вашому коді. Наприклад, програмісти можуть підключити Node.js модуль передавши змінну в `require` (ось так `require(variableAsPath)`) і це може дозволити атакуючій стороні виконати довільний JS скрипт. Node.js лінтери можуть ідентифікувати та попередити такі патерни
+
+<br/><br/>
+
+## ![✔] 3.3 Відкривайте фігурну дужку для початку кодового блоку на тій самій строці
+
+**TL;DR:** Відкриваюча фігурна дужка для блоку повинна бути на тій самі строці, що й відкриваючий вираз
+
+### Приклад Коду
 
 ```javascript
-// Do
+// Так робіть
 function someFunction() {
-  // code block
+  // код тут
 }
 
-// Avoid
+// Уникайте робити так
 function someFunction()
 {
-  // code block
+  // код тут
 }
 ```
 
-**Otherwise:** Deferring from this best practice might lead to unexpected results, as seen in the StackOverflow thread below:
+**Інакше:** Якщо не слідувати такому підходу, то можна наткнутись на неочікувані результати, як описано на StackOverflow:
 
-🔗 [**Read more:** "Why do results vary based on curly brace placement?" (StackOverflow)](https://stackoverflow.com/questions/3641519/why-does-a-results-vary-based-on-curly-brace-placement)
+🔗 [**Читати детальніше:** "Чому результати відрізняються в залежності від того де стоїть фігурна дужка?" (StackOverflow)](https://stackoverflow.com/questions/3641519/why-does-a-results-vary-based-on-curly-brace-placement)
 
 <br/><br/>
 
-## ![✔] 3.4 Don't Forget the Semicolon
+## ![✔] 3.4 Не забувайте про крапку з комою
 
-**TL;DR:** While not unanimously agreed upon, it is still recommended to put a semicolon at the end of each statement. This will make your code more readable and explicit to other developers who read it
+**TL;DR:** Хоча це і не було одностайно походжено, всеодно рекомендується ставити крапку з комою вкінці кожного виразу (в оригіналі statement). Це зробить Ваш код більш читабельним і прозорим для інших програмістів
 
-**Otherwise:** As seen in the previous section, JavaScript's interpreter automatically adds a semicolon at the end of a statement if there isn't one, or considers a statement as not ended where it should, which might lead to some undesired results
+**Інакше:** Як Ви вже знаєте з попередньої секції, JavaScript інтерпретатор автоматично додає крапку з комою вкінці кожного виразу (в оригіналі statement), якщо її не знаходить - це може призводити до неочікуваних результатів
 
-### Code example
+### Приклад Коду
 
 ```javascript
-// Do
+// Так робіть
 const count = 2;
 (function doSomething() {
-  // do something amazing
+  // тут щось надзвичайне
 }());
 
-// Avoid — throws exception
-const count = 2 // it tries to run 2(), but 2 is not a function
+// Уникайте робити так — викине помилку
+const count = 2 // інтерпретатор пробує виконати 2(), але 2 не є функцією
 (function doSomething() {
-  // do something amazing
+  // тут щось надзвичайне
 }())
 ```
 
 <br/><br/>
 
-## ![✔] 3.5 Name your functions
+## ![✔] 3.5 Називайте функції
 
-**TL;DR:** Name all functions, including closures and callbacks. Avoid anonymous functions. This is especially useful when profiling a node app. Naming all functions will allow you to easily understand what you're looking at when checking a memory snapshot
+**TL;DR:** Називайте всі функції, включаючи замикання і колбеки. Уникайте використання анонімних функцій. Це Вам дуже допоможе під час відладки Node.js додатку. Завдяки іменам, Ви легко зрозумієте, куди дивитесь під час аналізу знімка пам'яті (в оригіналі "memory snapshot")
 
-**Otherwise:** Debugging production issues using a core dump (memory snapshot) might become challenging as you notice significant memory consumption from anonymous functions
+**Інакше:** Відладка помилок, на системі якою користуються клієнти, за допомогою знімка пам'яті може стати справжнім викликом, якщо Ви помітите, що збільшення пам'яті відбувається в анонімній функції
 
 <br/><br/>
 
-## ![✔] 3.6 Use naming conventions for variables, constants, functions and classes
+## ![✔] 3.6 Використовуйте домовленості про іменування змінних, констант, функцій та класів
 
-**TL;DR:** Use **_lowerCamelCase_** when naming constants, variables and functions and **_UpperCamelCase_** (capital first letter as well) when naming classes. This will help you to easily distinguish between plain variables/functions, and classes that require instantiation. Use descriptive names, but try to keep them short
+**TL;DR:** Використовуйте **_lowerCamelCase_** коли іменуєте константи, змінні, функції і **_UpperCamelCase_** (перша літера велика) коли іменуєте класи. Це допоможе швидко відрізняти змінні та функції від класів для яких треба інстанціювати екземпляр. Використовуйте зрозумілі імена, але старайтесь, щоб вони були короткими
 
-**Otherwise:** Javascript is the only language in the world which allows invoking a constructor ("Class") directly without instantiating it first. Consequently, Classes and function-constructors are differentiated by starting with UpperCamelCase
+**Інакше:** Javascript - це єдина мова в світі, що дозволяє викликати конструктор (клас) напряму без інстанціювання екземпляра. В результаті, класи і функції конструктори відрізняються тим що називаються з великої букви
 
-### Code Example
+### Приклад Коду
 
 ```javascript
-// for class name we use UpperCamelCase
+// для класів використовуємо UpperCamelCase
 class SomeClassExample {}
 
-// for const names we use the const keyword and lowerCamelCase
+// для констант використовуйє ключове слово const і lowerCamelCase ім'я
 const config = {
   key: 'value'
 };
 
-// for variables and functions names we use lowerCamelCase
+// для змінних та функцій використовуємо імена в lowerCamelCase
 let someVariableExample = 'value';
 function doSomething() {}
 ```
