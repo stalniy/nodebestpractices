@@ -413,108 +413,108 @@ null == undefined   // true
 
 <p align="right"><a href="#table-of-contents">⬆ Повернутись на початок</a></p>
 
-# `4. Testing And Overall Quality Practices`
+# `4. Тестування та загальні практики якості`
 
-## ![✔] 4.1 At the very least, write API (component) testing
+## ![✔] 4.1 Як мінімум, пишіть тести для API
 
-**TL;DR:** Most projects just don't have any automated testing due to short timetables or often the 'testing project' ran out of control and was abandoned. For that reason, prioritize and start with API testing which is the easiest way to write and provides more coverage than unit testing (you may even craft API tests without code using tools like [Postman](https://www.getpostman.com/). Afterward, should you have more resources and time, continue with advanced test types like unit testing, DB testing, performance testing, etc
+**TL;DR:** Більшість проектів просто не мають ніякого автоматизованого тестування через щільний графік релізів або часто тестування виходить з під контролю і закидується. Саме через це, почніть з API тестування - це найпростіший спосіб, що дає більше покриття ніж юніт тестування (можна навіть почати без написання коду, використавши інструменти на зразок [Postman](https://www.getpostman.com/). Потім, коли буде більше ресурсів і часу, почніть писати юніт тести, тести для бази данних, тести на продуктивність, тощо
 
-**Otherwise:** You may spend long days on writing unit tests to find out that you got only 20% system coverage
-
-<br/><br/>
-
-## ![✔] 4.2 Include 3 parts in each test name
-
-**TL;DR:** Make the test speak at the requirements level so it's self explanatory also to QA engineers and developers who are not familiar with the code internals. State in the test name what is being tested (unit under test), under what circumstances and what is the expected result
-
-**Otherwise:** A deployment just failed, a test named “Add product” failed. Does this tell you what exactly is malfunctioning?
-
-🔗 [**Read More: Include 3 parts in each test name**](/sections/testingandquality/3-parts-in-name.md)
+**Інакше:** Через багато днів написання юніт тестів, Ви зрозумієте, що вони покривають лише 20% системи
 
 <br/><br/>
 
-## ![✔] 4.3 Detect code issues with a linter
+## ![✔] 4.2 Включайте 3 частини в ім'я кожного тесту
 
-**TL;DR:** Use a code linter to check basic quality and detect anti-patterns early. Run it before any test and add it as a pre-commit git-hook to minimize the time needed to review and correct any issue. Also check [Section 3](https://github.com/i0natan/nodebestpractices#3-code-style-practices) on Code Style Practices
+**TL;DR:** Зробіть, щоб тест говорив на мові вимог, щоб він був зрозумілим як для QA інженерів так і програмістам, хто не знайомий з внутрішньою організацією коду. Вказуйте, юніт тестування, при яких умовах тестуєте і який очікуємий результат
 
-**Otherwise:** You may let pass some anti-pattern and possible vulnerable code to your production environment.
+**Інакше:** Розгортання завалилось, тест з ім'ям “Додавання продукту” завалився. Чи це говорить Вам, що саме пішло не так?
 
-<br/><br/>
-
-## ![✔] 4.4 Avoid global test fixtures and seeds, add data per-test
-
-**TL;DR:** To prevent tests coupling and easily reason about the test flow, each test should add and act on its own set of DB rows. Whenever a test needs to pull or assume the existence of some DB data - it must explicitly add that data and avoid mutating any other records
-
-**Otherwise:** Consider a scenario where deployment is aborted due to failing tests, team is now going to spend precious investigation time that ends in a sad conclusion: the system works well, the tests however interfere with each other and break the build
-
-🔗 [**Read More: Avoid global test fixtures**](/sections/testingandquality/avoid-global-test-fixture.md)
+🔗 [**Читати детальніше: Включіть 3 частини в ім'я кожного тесту**](/sections/testingandquality/3-parts-in-name.md)
 
 <br/><br/>
 
+## ![✔] 4.3 Виявляйте проблеми в коді за допомогою лінтера
 
+**TL;DR:** Використовуйте лінтер для перевірки базової якості код та визначення антипатернів на ранній стадії. Щоб мінімізувати час на код рев'ю, додайте його в pre-commit git-hook. Також читайте [Секцію 3](https://github.com/i0natan/nodebestpractices#3-code-style-practices) про кращі практики написання коду
 
-## ![✔] 4.5 Constantly inspect for vulnerable dependencies
-
-**TL;DR:** Even the most reputable dependencies such as Express have known vulnerabilities. This can get easily tamed using community and commercial tools such as 🔗 [npm audit](https://docs.npmjs.com/cli/audit) and 🔗 [snyk.io](https://snyk.io) that can be invoked from your CI on every build
-
-**Otherwise:** Keeping your code clean from vulnerabilities without dedicated tools will require to constantly follow online publications about new threats. Quite tedious
+**Інакше:** Вразливий код та певні антипатерни можуть пролізти в production середовище.
 
 <br/><br/>
 
-## ![✔] 4.6 Tag your tests
+## ![✔] 4.4 Уникайте глобальний тестових даних, створюйте необхідний стан системи в кожному тесті
 
-**TL;DR:** Different tests must run on different scenarios: quick smoke, IO-less, tests should run when a developer saves or commits a file, full end-to-end tests usually run when a new pull request is submitted, etc. This can be achieved by tagging tests with keywords like #cold #api #sanity so you can grep with your testing harness and invoke the desired subset. For example, this is how you would invoke only the sanity test group with [Mocha](https://mochajs.org/): mocha --grep 'sanity'
+**TL;DR:** Щоб уникнути тісної зв'язаності тестів та чітко бачити їх структуру, кожен тест повинен бути незалежним і оперувати своїми власними даними. Кожен раз коли в тесті необхідно покладатись на існуючі дані - треба явно додати ці дані в систему та уникати зміни стану уже існуючих даних в системі
 
-**Otherwise:** Running all the tests, including tests that perform dozens of DB queries, any time a developer makes a small change can be extremely slow and keeps developers away from running tests
+**Інакше:** Розглянемо сценарій, коли неуспішно пройдені тести відмінили розгортання середовища, команді тепер необхідно витратити дорогоцінний час, щоб провести дослідження та прийти до висновку: система працює коректно, а проблема в тестах. Вони написані так, що заважають проходженню один одного і ламають розгортання середовища.
 
-<br/><br/>
-
-## ![✔] 4.7 Check your test coverage, it helps to identify wrong test patterns
-
-**TL;DR:** Code coverage tools like [Istanbul/NYC ](https://github.com/gotwarlost/istanbul)are great for 3 reasons: it comes for free (no effort is required to benefit this reports), it helps to identify a decrease in testing coverage, and last but not least it highlights testing mismatches: by looking at colored code coverage reports you may notice, for example, code areas that are never tested like catch clauses (meaning that tests only invoke the happy paths and not how the app behaves on errors). Set it to fail builds if the coverage falls under a certain threshold
-
-**Otherwise:** There won't be any automated metric telling you when a large portion of your code is not covered by testing
+🔗 [**Читати детальніше: Уникайте глобальний тестових даних**](/sections/testingandquality/avoid-global-test-fixture.md)
 
 <br/><br/>
 
-## ![✔] 4.8 Inspect for outdated packages
 
-**TL;DR:** Use your preferred tool (e.g. 'npm outdated' or [npm-check-updates](https://www.npmjs.com/package/npm-check-updates) to detect installed packages which are outdated, inject this check into your CI pipeline and even make a build fail in a severe scenario. For example, a severe scenario might be when an installed package is 5 patch commits behind (e.g. local version is 1.3.1 and repository version is 1.3.8) or it is tagged as deprecated by its author - kill the build and prevent deploying this version
 
-**Otherwise:** Your production will run packages that have been explicitly tagged by their author as risky
+## ![✔] 4.5 Постійно перевіряйти залежності на вразливість
 
-<br/><br/>
+**TL;DR:** Навіть найпопулярніші пакети, такі як Express, мають вразливості. На даний момент існують комерційні та безкоштовні інструменти, які можна запускати на кожен CI build. Од з найпоширеніших - це [npm audit](https://docs.npmjs.com/cli/audit) та [snyk.io](https://snyk.io).
 
-## ![✔] 4.9 Use docker-compose for e2e testing
-
-**TL;DR:** End to end (e2e) testing which includes live data used to be the weakest link of the CI process as it depends on multiple heavy services like DB. Docker-compose turns this problem into a breeze by crafting production-like environment using a simple text file and easy commands. It allows crafting all the dependent services, DB and isolated network for e2e testing. Last but not least, it can keep a stateless environment that is invoked before each test suite and dies right after
-
-**Otherwise:** Without docker-compose teams must maintain a testing DB for each testing environment including developers' machines, keep all those DBs in sync so test results won't vary across environments
+**Інакше:** Для того щоб убергіти свій код від вразливостей без спеціальних інструментів, необхідно постійно слідкувати за онлайн видавництвами на тему нових загроз. Доволі рутинно погодьтесь.
 
 <br/><br/>
 
-## ![✔] 4.10 Refactor regularly using static analysis tools
+## ![✔] 4.6 Тегуйте свої тести
 
-**TL;DR:** Using static analysis tools helps by giving objective ways to improve code quality and keeps your code maintainable. You can add static analysis tools to your CI build to fail when it finds code smells. Its main selling points over plain linting are the ability to inspect quality in the context of multiple files (e.g. detect duplications), perform advanced analysis (e.g. code complexity) and follow the history and progress of code issues. Two examples of tools you can use are [Sonarqube](https://www.sonarqube.org/) (2,600+ [stars](https://github.com/SonarSource/sonarqube)) and [Code Climate](https://codeclimate.com/) (1,500+ [stars](https://github.com/codeclimate/codeclimate)).
+**TL;DR:** Різні тести повинні запускатись в різних випадках: швидкі smoke, без сайд ефектів (в оригіналі IO-less), тести, що повинні запускатись коли девеловер зберігає або комітить файл, тести повного циклу (в оригіналі full end-to-end), що запускаються коли прийшов pull request, тощо. Все це можна зробити, якщо протегувати тести ключовими словами, наприклад: #cold, #api, #sanity. Наприклад, [Mocha](https://mochajs.org/) має опцію `--grep` за допомогою якої потім можна запускати тести з певним тегом: `mocha --grep 'sanity'`
 
-**Otherwise:** With poor code quality, bugs and performance will always be an issue that no shiny new library or state of the art features can fix
-
-🔗 [**Read More: Refactoring!**](/sections/testingandquality/refactoring.md)
+**Інакше:** Запуск всіх тестів, включаючи ті, що роблять купу запитів до бази даних, при нaйменшій зміні коду, буде займати багато часу. Це сповільнить розробку та призведе до того, що розробники перестануть їх запускати.
 
 <br/><br/>
 
-## ![✔] 4.11 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
+## ![✔] 4.7 Перевіряйте покриття тестами, це допоможе виявити невірні шаблони тестування
 
-**TL;DR:** Your continuous integration platform (CICD) will host all the quality tools (e.g test, lint) so it should come with a vibrant ecosystem of plugins. [Jenkins](https://jenkins.io/) used to be the default for many projects as it has the biggest community along with a very powerful platform at the price of complex setup that demands a steep learning curve. Nowadays, it has become much easier to set up a CI solution using SaaS tools like [CircleCI](https://circleci.com) and others. These tools allow crafting a flexible CI pipeline without the burden of managing the whole infrastructure. Eventually, it's a trade-off between robustness and speed - choose your side carefully
+**TL;DR:** Інструменти для підрахунку покриття код тестами (в оригіналі code coverage) такі як [Istanbul/NYC ](https://github.com/gotwarlost/istanbul) дуже корисні, по 3-м причинам: легко підключити (не треба прикладати зусиль, щоб отримвати звіт по покриттю), допомогають ідентифікувати пониження покриття коду тестами і показують не протестовані сценарії: дивлячись на кольорову підсвітку звіту про покриття, можна побачити, що, наприклад, `catch` блоки ніколи не тестувались (а це значить, що тести перевіряють лише happy paths і не перевіряють, як веде себе програма у разі винекнення помилок). Зробіть, щоб білд завершувався з помилкою, якщо відсоток покриття нижчий за певний поріг
 
-**Otherwise:** Choosing some niche vendor might get you blocked once you need some advanced customization. On the other hand, going with Jenkins might burn precious time on infrastructure setup
+**Інакше:** Не буде ніяких метрик, які показують, що великі секції коду не протестовані.
 
-🔗 [**Read More: Choosing CI platform**](/sections/testingandquality/citools.md)
+<br/><br/>
+
+## ![✔] 4.8 Перевіряйте чи залежності не застаріли
+
+**TL;DR:** Використовуйте довільний інструмент (наприклад, `npm outdated` or [npm-check-updates](https://www.npmjs.com/package/npm-check-updates), щоб визначити, які із встановлених пакетів застаріли, підключіть це у CI pipeline і навіть зробіть, що білд фейлився в певних сценаріях. Наприклад, якщо встановлений пакет знаходиться на 5 patch релізів позаду (мається на увазі локальна версія 1.3.1, а найновіша версія - 1.3.8) або якщо пакет помічений як застарівший його автором - вбийте білд і не допустіть деплоя цієї версії програми на production
+
+**Інакше:** Ваш продакшн буде використовувати пакети, що помічені їх авторами як ризиковані
+
+<br/><br/>
+
+## ![✔] 4.9 Використовуйте docker-compose для e2e тестування
+
+**TL;DR:** End to end (e2e) тестування завжди було найслабкішою ланкою в CI процесі, оскільки воно залежить від декількох тяжких сервісів, наприклад база даних. Docker-compose вирішує цю проблему простіше нікуди, створюючи production подібне середовище за допомогою текстового файла і декількох команд. Він дозволяє розвернути всі необхідні сервіси, базу даних та ізольовану мережу для e2e тестування. Остання, але не менш важливе - він може створювати абсолютно нове середовище перед кожним запуском тестів та видаляти його вкінці.
+
+**Інакше:** Без docker-compose команді потрібно підтримувати базу даних синхронізованою на кожному тестому середовищі, включаючи компютери девелоперів, щоб запуск тестів не відрізнявся від середовища до середовища
+
+<br/><br/>
+
+## ![✔] 4.10 Регулярно рефакторіть, використовуючи інструменти для статичного аналізу
+
+**TL;DR:** Інструменти для статичного аналізу коду надають об'єктивні метрики для покращення якості коду та допомагають тримати код підтримуємому стані. Ви можете додати статичні аналізатори в CI build, щоб він фейлився, якщо знаходить code smell. Їх основна перевага над звичайним linting-ом - це здатність перевіряти якість коду в межах декількох файлів (наприклад, визначати дублювання коду), виконувати розширений аналіз (наприклад, складність коду) та слідкувати за історією та розвитком якості коду. Прикладом таких інструментів є [Sonarqube](https://www.sonarqube.org/) (2,600+ [зірочок](https://github.com/SonarSource/sonarqube)) та [Code Climate](https://codeclimate.com/) (1,500+ [зірочок](https://github.com/codeclimate/codeclimate)).
+
+**Інакше:** Погана якість коду, баги та продуктивність - завжди будуть проблемою, яку не зможе перекрити жодна нова блискуча фіча і бібліотека
+
+🔗 [**Читати детальніше: Рефакторинг!**](/sections/testingandquality/refactoring.md)
+
+<br/><br/>
+
+## ![✔] 4.11 Ретельно вибирайте свою CI платформу (Jenkins, CircleCI, Travis чи все інше)
+
+**TL;DR:** Ваша платформа безперервної інтеграції (CI/CD) буде керувати всіма інструментами якості (наприклад, test, lint), отже вона повинна мати екосистему якісних плагінів. [Jenkins](https://jenkins.io/) використовувався як основний інструмент для багатьох проектів, він має найбільше комюніті разом з дуже потужною платформою, та ціна за це складне налаштування з крутою кривою вивчення. У наш час, стало набагато простіше налаштувати CI рішення використовуючи SaaS інструменти на зразок [CircleCI](https://circleci.com) та аналогічних. Ці інструменти дозволяють створювати гнучкі CI pipeline-и без тягаря керування всією інфраструктурою. Вкінці-кінців, це компроміс між надійністю та швидкістю - вибирайте свою сторону ретельно
+
+**Інакше:** Вибравши якийсь нішовий CI інструмент, Ви можете опинитись в скрутному становищі в той момент, коли доведеться зробити якесь специфічне налаштування під проект. З іншого боку, вибравши Jenkins Ви можете згаяти багато часу на налаштування інфраструктури
+
+🔗 [**Читати детальніше: Вибір CI платформи**](/sections/testingandquality/citools.md)
 
 <br/><br/><br/>
 
 
-<p align="right"><a href="#table-of-contents">⬆ Return to top</a></p>
+<p align="right"><a href="#table-of-contents">⬆ Повернутись на початок</a></p>
 
 # `5. Going To Production Practices`
 
