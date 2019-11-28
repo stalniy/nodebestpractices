@@ -516,15 +516,15 @@ null == undefined   // true
 
 <p align="right"><a href="#table-of-contents">⬆ Повернутись на початок</a></p>
 
-# `5. Going To Production Practices`
+# `5. Перед запуском в Production`
 
-## ![✔] 5.1. Monitoring!
+## ![✔] 5.1. Моніторинг!
 
-**TL;DR:** Monitoring is a game of finding out issues before customers do – obviously this should be assigned unprecedented importance. The market is overwhelmed with offers thus consider starting with defining the basic metrics you must follow (my suggestions inside), then go over additional fancy features and choose the solution that ticks all boxes. Click ‘The Gist’ below for an overview of the solutions
+**TL;DR:** Моніторинг - це гра по знаходженню багів до того як це зроблять Ваші користувачі – очевидно, що такі баги повинні мати надзвичайно високий пріорітет. Ринок переповнений пропозиціями, тому почніть з визначення основних метрик, яких будете притримуватись (мої рекомендації всередині), потім розгляньте нестандартні і виберіть рішення, що підходить по всім параметрам.
 
-**Otherwise:** Failure === disappointed customers. Simple
+**Інакше:** Помилки === незадоволені користувачі. Дуже просто
 
-🔗 [**Read More: Monitoring!**](/sections/production/monitoring.md)
+🔗 [**Читати детальніше: Моніторинг!**](/sections/production/monitoring.md)
 
 <br/><br/>
 
